@@ -19,6 +19,7 @@ package config
 import (
 	// Note(ezgidemirel): we are importing this to embed provider schema document
 	_ "embed"
+	"github.com/upbound/provider-azure/config/botservice"
 
 	tjconfig "github.com/upbound/upjet/pkg/config"
 	"github.com/upbound/upjet/pkg/registry/reference"
@@ -161,6 +162,7 @@ func GetProvider() *tjconfig.Provider {
 		logic.Configure,
 		security.Configure,
 		base.Configure,
+		botservice.Configure,
 		datashare.Configure,
 		notificationhubs.Configure,
 		storagesync.Configure,

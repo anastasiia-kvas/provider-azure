@@ -1,0 +1,84 @@
+apiVersion: botservice.azure.upbound.io/v1beta1
+kind: AzureBot
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/azurebot
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    developerAppInsightsApiKeySecretRef:
+      key: attribute.api_key
+      name: example-application-insights-api-key
+      namespace: upbound-system
+    developerAppInsightsApplicationIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    endpoint: https://example.com
+    location: global
+    microsoftAppId: ${data.azurerm_client_config.current.client_id}
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    sku: F0
+    tags:
+      environment: test
+
+---
+
+apiVersion: insights.azure.upbound.io/v1beta1
+kind: ApplicationInsights
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/azurebot
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    applicationType: web
+    location: West Europe
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: insights.azure.upbound.io/v1beta1
+kind: ApplicationInsightsAPIKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/azurebot
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    applicationInsightsIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: example-appinsightsapikey
+    readPermissions:
+    - aggregate
+    - api
+    - draft
+    - extendqueries
+    - search
+
+---
+
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/azurebot
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    location: West Europe
+
+---
+

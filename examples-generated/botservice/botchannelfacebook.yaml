@@ -1,0 +1,65 @@
+apiVersion: botservice.azure.upbound.io/v1beta1
+kind: BotChannelFacebook
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/botchannelfacebook
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    botNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    facebookApplicationId: "563490254873576"
+    facebookApplicationSecretSecretRef:
+      key: example-key
+      name: example-secret
+      namespace: upbound-system
+    location: global
+    page:
+    - accessTokenSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+      id: "876248795081953"
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+
+---
+
+apiVersion: botservice.azure.upbound.io/v1beta1
+kind: BotChannelsRegistration
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/botchannelfacebook
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    location: global
+    microsoftAppId: ${data.azurerm_client_config.current.client_id}
+    name: example-bcr
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    sku: F0
+
+---
+
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/botchannelfacebook
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    location: West Europe
+
+---
+

@@ -1,0 +1,82 @@
+apiVersion: botservice.azure.upbound.io/v1beta1
+kind: AzureBot
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/azurebot
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    developerAppInsightsApiKeySecretRef:
+      key: ay4e6quq6agpb7ek7cr38rdchidjzyjqdoozira6
+      name: app insights api key
+      namespace: upbound-system
+    developerAppInsightsApplicationIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: app-insights-label
+    endpoint: https://example.com
+    location: global
+    #microsoftAppId: ${data.azurerm_client_config.current.client_id}
+    microsoftAppId: 2351ca13-329c-47c5-ae67-462a24103c02
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: azure-bot-r-group-label
+    sku: F0
+    tags:
+      environment: testenv
+
+---
+
+apiVersion: insights.azure.upbound.io/v1beta1
+kind: ApplicationInsights
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/azurebot
+  labels:
+    testing.upbound.io/example-name: app-insights-label
+  name: app-insights-name
+spec:
+  forProvider:
+    applicationType: web
+    location: West Europe
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: azure-bot-r-group-label
+
+---
+
+apiVersion: insights.azure.upbound.io/v1beta1
+kind: ApplicationInsightsAPIKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/azurebot
+  labels:
+    testing.upbound.io/example-name: app-insights-api-key-label
+  name: app-insights-api-key-name
+spec:
+  forProvider:
+    applicationInsightsIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: app-insights-label
+    name: example-appinsightsapikey
+    readPermissions:
+    - aggregate
+    - api
+    - draft
+    - extendqueries
+    - search
+
+---
+
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: botservice/v1beta1/azurebot
+  labels:
+    testing.upbound.io/example-name: azure-bot-r-group-label
+  name: azure-bot-r-group
+spec:
+  forProvider:
+    location: West Europe

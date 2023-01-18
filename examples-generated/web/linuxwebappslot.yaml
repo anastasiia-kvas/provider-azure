@@ -1,0 +1,51 @@
+apiVersion: web.azure.upbound.io/v1beta1
+kind: LinuxWebAppSlot
+metadata:
+  annotations:
+    meta.upbound.io/example-id: web/v1beta1/linuxwebappslot
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    appServiceId: ${azurerm_linux_web_app.example.id}
+    name: example-slot
+    siteConfig:
+    - {}
+
+---
+
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: web/v1beta1/linuxwebappslot
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    location: West Europe
+
+---
+
+apiVersion: web.azure.upbound.io/v1beta1
+kind: ServicePlan
+metadata:
+  annotations:
+    meta.upbound.io/example-id: web/v1beta1/linuxwebappslot
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    location: West Europe
+    name: example-plan
+    osType: Linux
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    skuName: P1v2
+
+---
+

@@ -351,6 +351,10 @@ import (
 	outputblob "github.com/upbound/provider-azure/internal/controller/streamanalytics/outputblob"
 	outputfunction "github.com/upbound/provider-azure/internal/controller/streamanalytics/outputfunction"
 	outputsynapse "github.com/upbound/provider-azure/internal/controller/streamanalytics/outputsynapse"
+	linuxfunctionapp "github.com/upbound/provider-azure/internal/controller/web/linuxfunctionapp"
+	linuxfunctionappslot "github.com/upbound/provider-azure/internal/controller/web/linuxfunctionappslot"
+	linuxwebappslot "github.com/upbound/provider-azure/internal/controller/web/linuxwebappslot"
+	serviceplan "github.com/upbound/provider-azure/internal/controller/web/serviceplan"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -699,6 +703,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		outputblob.Setup,
 		outputfunction.Setup,
 		outputsynapse.Setup,
+		linuxfunctionapp.Setup,
+		linuxfunctionappslot.Setup,
+		linuxwebappslot.Setup,
+		serviceplan.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

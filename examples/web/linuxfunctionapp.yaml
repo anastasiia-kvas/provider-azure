@@ -1,0 +1,93 @@
+apiVersion: web.azure.upbound.io/v1beta1
+kind: LinuxFunctionApp
+metadata:
+  annotations:
+    meta.upbound.io/example-id: web/v1beta1/linuxfunctionapp
+  labels:
+    testing.upbound.io/example-name: example
+  name: test-linux-function-app4
+spec:
+  forProvider:
+    location: West Europe
+    name: test-linux-function-app4
+    keyVaultReferenceIdentityId:
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: linux-web-app-r-group-label
+    servicePlanIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: service-plan-label
+    siteConfig:
+      - applicationStack:
+          - pythonVersion: "3.9"
+    storageAccountAccessKeySecretRef:
+      key: key
+      name: example-storage-account
+      namespace: upbound-system
+    storageAccountNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: linux-function-app-account-label
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: example-storage-account
+  namespace: upbound-system
+type: Opaque
+stringData:
+  key: fzc1SGkTdCDiDm4EJHDl3lDy3sstdJu0dNmxSwejmhltiBbHu6P9u3kMSXPW01wX2vdnmvwMOIn/+AStcSvafQ==
+
+---
+
+apiVersion: storage.azure.upbound.io/v1beta1
+kind: Account
+metadata:
+  annotations:
+    meta.upbound.io/example-id: web/v1beta1/linuxfunctionapp
+  labels:
+    testing.upbound.io/example-name: linux-function-app-account-label
+  name: linuxfunctionappaccount
+spec:
+  forProvider:
+    accountReplicationType: LRS
+    accountTier: Standard
+    location: West Europe
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: linux-web-app-r-group-label
+
+---
+
+apiVersion: web.azure.upbound.io/v1beta1
+kind: ServicePlan
+metadata:
+  annotations:
+    meta.upbound.io/example-id: web/v1beta1/linuxfunctionapp
+  labels:
+    testing.upbound.io/example-name: service-plan-label
+  name: service-plan-name
+spec:
+  forProvider:
+    location: West Europe
+    name: service-plan-name
+    osType: Linux
+    resourceGroupNameSelector:
+      matchLabels:
+        testing.upbound.io/example-name: linux-web-app-r-group-label
+    skuName: B1
+
+---
+
+apiVersion: azure.upbound.io/v1beta1
+kind: ResourceGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: web/v1beta1/linuxfunctionapp
+  labels:
+    testing.upbound.io/example-name: linux-web-app-r-group-label
+  name: linux-web-app-r-group
+spec:
+  forProvider:
+    location: West Europe
